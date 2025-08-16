@@ -1,9 +1,9 @@
-🛒 E-Commerce Product API
+                🛒 E-Commerce Product API
 
 A Django REST Framework (DRF) project providing APIs for managing products and users in an e-commerce application.
 This backend is role-based: customers can sign up, browse, and search for products, while admins can manage products (CRUD).
 
-🚀 Features
+                🚀 Features
 ==> Product Management
 
 Create, Read, Update, and Delete (CRUD) products.
@@ -65,12 +65,13 @@ Django REST Framework (DRF)
 SimpleJWT for authentication
 
 
-==> 📌 API Endpoints
-Authentication
+                ==> 📌 API Endpoints
+        Authentication
 Method	Endpoint	Description
 POST	/api/signup/	Register a new user (role = customer by default).
 POST	/api/login/	Log in with username & password, returns JWT tokens.
-Products
+        
+        Products
 Method	Endpoint	Description	Auth Required	Role
 GET	/api/products/	List all products (paginated).	No	Any
 GET	/api/products/<id>/	Retrieve product details.	No	Any
@@ -80,7 +81,7 @@ DELETE	/api/products/<id>/	Delete a product.	Yes	Admin
 GET	/api/products/search/?q=<term>	Search products by name/category (paginated).	No	Any
 
 
-==> 🔒 Roles & Permissions
+          ==> 🔒 Roles & Permissions
 
 Customer
 
@@ -104,6 +105,6 @@ Role-based API endpoint for promoting/demoting users (admin-only).
 
 Advanced filtering (price range, stock availability).
 
-==> 📜 License
+                  ==> 📜 License
 
 MIT License © 2025
