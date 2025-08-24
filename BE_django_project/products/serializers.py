@@ -14,6 +14,7 @@ class CategorySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "id", 
+            "slug",
             "created_date", 
             "updated_date"
             ]
@@ -39,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "id", 
+            "slug",
             "created_date", 
             "updated_date"
             ]
