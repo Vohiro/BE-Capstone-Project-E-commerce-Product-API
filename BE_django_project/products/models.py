@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from accounts.models import CustomUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Category(models.Model):
@@ -60,3 +62,17 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, related_name="reviews", on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name="reviews", on_delete=models.CASCADE)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("product", "user")
+
+    def __str__(self):
+        return f"{self.user} - {self.product} ({self.rating})"

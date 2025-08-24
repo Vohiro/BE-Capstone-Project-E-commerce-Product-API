@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, filters
-from .models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer
-from accounts.permissions import IsAdminUserRole
+from .models import Product, Category, Review
+from .serializers import ProductSerializer, CategorySerializer, ReviewSerializer
+from accounts.permissions import IsAdminUserRole, IsReviewOwnerOrAdmin
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -76,4 +76,24 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             return [IsAdminUserRole()]
-        return [permissions.AllowAny()]    
+        return [permissions.AllowAny()]   
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticated, IsReviewOwnerOrAdmin]
+
+    def get_queryset(self):
+        return Review.objects.filter(product_id=self.kwargs["product_pk"])
+
+    def perform_create(self, serializer):
+        product_id = self.kwargs["product_pk"]
+        user = self.request.user
+
+        # check if user already has a review for this product
+        if Review.objects.filter(user=user, product_id=product_id).exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("You have already reviewed this product.")
+
+        serializer.save(user=user, product_id=product_id)
+    
