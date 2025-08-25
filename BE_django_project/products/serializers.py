@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Category, Review
+from .models import Product, Category, Review, ProductImage, Wishlist
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -18,10 +18,25 @@ class CategorySerializer(serializers.ModelSerializer):
             "created_date", 
             "updated_date"
             ]
+        
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = ProductImage
+        fields = "__all__"
+        read_only_fields = [
+            "id", 
+            "product",
+            "created_date"
+            ]
 
 
 class ProductSerializer(serializers.ModelSerializer):
     category_detail = CategorySerializer(source="category", read_only=True)
+    images = ProductImageSerializer(many=True, required=False)
+
     class Meta:
         model = Product
         fields = [
@@ -33,7 +48,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'category',
             'category_detail',
             'stock_quantity',
-            'image',
+            'images',
             'available',
             'created_date',
             'updated_date'
@@ -71,6 +86,21 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
+        fields = "__all__"
+        read_only_fields = [
+            "id", 
+            "product",
+            "user", 
+            "created_date"
+            ]
+        
+
+class WishlistSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    product = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Wishlist
         fields = "__all__"
         read_only_fields = [
             "id", 

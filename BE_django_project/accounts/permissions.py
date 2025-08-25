@@ -11,7 +11,7 @@ class IsAdminUserRole(BasePermission):
         return request.user.is_authenticated and (request.user.role == 'admin' or request.user.is_superuser)
 
 
-class IsReviewOwnerOrAdmin(BasePermission):
+class IsOwnerOrAdmin(BasePermission):
     """
     Custom permission: only review owner or admin can edit/delete.
     """

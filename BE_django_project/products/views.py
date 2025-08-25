@@ -1,10 +1,17 @@
 from rest_framework import viewsets, permissions, filters
-from .models import Product, Category, Review
-from .serializers import ProductSerializer, CategorySerializer, ReviewSerializer
-from accounts.permissions import IsAdminUserRole, IsReviewOwnerOrAdmin
+from .models import Product, Category, Review, Wishlist, ProductImage
+from .serializers import (
+    ProductSerializer, 
+    CategorySerializer, 
+    ReviewSerializer, 
+    WishlistSerializer,
+    ProductImageSerializer
+)
+from accounts.permissions import IsAdminUserRole, IsOwnerOrAdmin
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.shortcuts import get_object_or_404
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -81,7 +88,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticated, IsReviewOwnerOrAdmin]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
 
     def get_queryset(self):
         return Review.objects.filter(product_id=self.kwargs["product_pk"])
@@ -96,4 +103,52 @@ class ReviewViewSet(viewsets.ModelViewSet):
             raise ValidationError("You have already reviewed this product.")
 
         serializer.save(user=user, product_id=product_id)
-    
+
+
+class WishlistViewSet(viewsets.ModelViewSet):
+    serializer_class = WishlistSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
+
+    def get_queryset(self):
+        # Only return wishlist items for the logged-in user
+        return Wishlist.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        product_id = self.request.data.get("product_id")
+        product_name = self.request.data.get("product")
+
+        # Try to fetch product either by id or by name
+        product = None
+        if product_id:
+            product = Product.objects.filter(id=product_id).first()
+        elif product_name:
+            product = Product.objects.filter(name__iexact=product_name).first()
+
+        if not product:
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("Product not found. Provide a valid product_id or product_name.")
+
+        # check if user already has added this product to wishlist
+        if Wishlist.objects.filter(user=user, product_id=product_id).exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("You have already wishlisted this product.")
+
+        serializer.save(user=user, product_id=product_id)
+
+
+class ProductImageViewSet(viewsets.ModelViewSet):
+    serializer_class = ProductImageSerializer
+    permission_classes = [IsAdminUserRole]
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs["product_pk"])
+
+    def perform_create(self, serializer):
+        product = get_object_or_404(Product, pk=self.kwargs["product_pk"])
+        serializer.save(product=product)
+
+    def get_permissions(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return [IsAdminUserRole()]
+        return [permissions.AllowAny()] 

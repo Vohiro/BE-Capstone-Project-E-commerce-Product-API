@@ -33,7 +33,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="products")
     available = models.BooleanField(default=True)
     stock_quantity = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='product_image', blank=True)
+    # image = models.ImageField(upload_to='product_image', blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
@@ -75,4 +75,25 @@ class Review(models.Model):
         unique_together = ("product", "user")
 
     def __str__(self):
-        return f"{self.user} - {self.product} ({self.rating})"
+        return f"Review by {self.user} for {self.product} ({self.rating})"
+    
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product_image/')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.product.name}"
+    
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(CustomUser, related_name="wishlist", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="wishlisted_by", on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f"{self.user} → {self.product.name}"
