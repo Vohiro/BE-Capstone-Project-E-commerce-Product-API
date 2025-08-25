@@ -67,7 +67,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    product = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Review
         fields = "__all__"
+        read_only_fields = [
+            "id", 
+            "product",
+            "user", 
+            "created_date"
+            ]

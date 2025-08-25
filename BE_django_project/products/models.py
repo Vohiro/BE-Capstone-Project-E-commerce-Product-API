@@ -69,7 +69,7 @@ class Review(models.Model):
     user = models.ForeignKey(CustomUser, related_name="reviews", on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ("product", "user")
