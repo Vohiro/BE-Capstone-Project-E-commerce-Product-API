@@ -152,3 +152,5 @@ class ProductImageViewSet(viewsets.ModelViewSet):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             return [IsAdminUserRole()]
         return [permissions.AllowAny()] 
+    
+

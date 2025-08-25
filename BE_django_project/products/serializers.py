@@ -108,3 +108,4 @@ class WishlistSerializer(serializers.ModelSerializer):
             "user", 
             "created_date"
             ]
+        

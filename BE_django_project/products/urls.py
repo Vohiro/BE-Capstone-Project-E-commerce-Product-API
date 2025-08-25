@@ -25,3 +25,4 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include(products_router.urls)),
 ]
+
