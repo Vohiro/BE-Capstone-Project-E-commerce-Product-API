@@ -1,0 +1,7 @@
+services:
+type: web
+    plan: free
+    name: BE_django_project
+    runtime: python
+    buildCommand: './build_files.sh'
+    startCommand: 'python -m gunicorn BE_django_project.asgi:application -k uvicorn.workers.UvicornWorker'
