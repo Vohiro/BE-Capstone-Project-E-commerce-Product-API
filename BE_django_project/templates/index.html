@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Product API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem auto;
+      max-width: 900px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1, h2 {
+      color: #222;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #fafafa;
+    }
+    .note {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #f0f8ff;
+      border-left: 4px solid #007acc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛒 E-Commerce Product API</h1>
+  <p>
+    Welcome to the <strong>Django REST Framework</strong> powered E-Commerce API.  
+    This backend allows <em>customers</em> to sign up, browse, and review products,  
+    while <em>admins</em> can fully manage the product catalog.
+  </p>
+
+  <h2>📌 Quick Overview</h2>
+
+  <h3>Authentication</h3>
+  <ul>
+    <li><code>POST /api/accounts/register/</code> — Register a new user</li>
+    <li><code>POST /api/accounts/login/</code> — Log in and obtain JWT tokens</li>
+  </ul>
+
+  <h3>Products</h3>
+  <ul>
+    <li><code>GET /api/v1/products/</code> — List all products</li>
+    <li><code>GET /api/v1/products/{id}/</code> — Product details</li>
+    <li><code>POST /api/v1/products/</code> — Create (Admin only)</li>
+  </ul>
+
+  <h3>Other Features</h3>
+  <ul>
+    <li>📦 Categories</li>
+    <li>⭐ Reviews</li>
+    <li>🖼️ Product Images</li>
+    <li>💖 Wishlists</li>
+  </ul>
+
+  <div class="note">
+    👉 This is only a <strong>quick reference</strong>.  
+    For full endpoint descriptions, request/response examples, and advanced usage,  
+    please see the <a href="https://github.com/Vohiro/BE-Capstone-Project-E-commerce-Product-API">README.md</a>.
+  </div>
+
+</body>
+</html>

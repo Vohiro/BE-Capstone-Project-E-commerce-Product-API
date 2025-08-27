@@ -104,6 +104,13 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
         serializer.save(user=user, product_id=product_id)
 
+    def get_permissions(self):
+        if self.action in ["create"]:
+            return [permissions.IsAuthenticated()]
+        elif self.action in ["update", "partial_update", "destroy"]:
+            return [IsOwnerOrAdmin()]
+        return [permissions.AllowAny()] 
+
 
 class WishlistViewSet(viewsets.ModelViewSet):
     serializer_class = WishlistSerializer
