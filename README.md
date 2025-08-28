@@ -85,7 +85,7 @@ This backend is **role-based**:
 
 ---
 
-###  Categories
+### 📦 Categories
 | Method | Endpoint                         | Description                         | Auth Required |     Role    |
 |--------|----------------------------------|-------------------------------------|---------------|-------------|
 | GET    | `api/v1/categories/`             | List all categories (paginated).    | No            |     Any     |
@@ -98,7 +98,7 @@ This backend is **role-based**:
 
 ---
 
-###  Reviews
+### ⭐ Reviews
 | Method | Endpoint                                    | Description                        | Auth Required |     Role             |
 |--------|---------------------------------------------|------------------------------------|---------------|----------------------|
 | GET    | `api/v1/products/{pk}/reviews/`             | List all reviews for a product.    | No            |     Any              |
@@ -111,7 +111,7 @@ This backend is **role-based**:
 
 ---
 
-###  Product Images
+### 🖼️ Product Images
 | Method | Endpoint                                   | Description                        | Auth Required |     Role    |
 |--------|--------------------------------------------|------------------------------------|-------------- |-------------|
 | GET    | `api/v1/products/{pk}/images/`             | List all images for a product.     | No            |     Any     |
@@ -122,7 +122,7 @@ This backend is **role-based**:
 
 ---
 
-### 📦 wishlists
+### 💖 wishlists
 | Method | Endpoint                               | Description                                        | Auth Required |     Role             |
 |--------|----------------------------------------|----------------------------------------------------|---------------|----------------------|
 | GET    | `/api/v1/wishlists/`                   | List all products in a user wishlists              | No            |     Any              |
@@ -149,6 +149,21 @@ This backend is **role-based**:
 - 📧 Password reset with email verification.
 - 🔑 Role-based API endpoint for promoting/demoting users (admin-only).
 - 🎯 Advanced filtering (price range, stock availability).
+
+---
+
+## 🛠 Test user
+-  Admin user:
+    - {
+        "username": "dave001", 
+        "password": "password123"
+        }
+
+-  Customer user:
+    - {
+        "username": "test005", 
+        "password": "password123"
+        }
 
 ---
 
